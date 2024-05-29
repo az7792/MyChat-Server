@@ -1,7 +1,5 @@
 package org.mychat.mychatserver.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 public class User {
     private int uid;
     private String username;
