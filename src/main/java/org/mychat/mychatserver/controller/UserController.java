@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("/register")
     public Map<String, Object> register(User user) {
         Map<String, Object> response = new HashMap<>();
-        if(userMapper.isEmailExist(user.getEmail())) {
+        if(userMapper.isEmailExist(user.getEmail())) {// 邮箱未使用时才能注册
             response.put("success",false);
             return response;
         }
