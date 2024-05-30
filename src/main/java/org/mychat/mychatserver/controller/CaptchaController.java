@@ -1,5 +1,7 @@
 package org.mychat.mychatserver.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.mychat.mychatserver.entity.Captcha;
 import org.mychat.mychatserver.mapper.CaptchaMapper;
 import org.mychat.mychatserver.utils.CaptchaUtils;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "验证码管理")
 @RestController
 public class CaptchaController {
 
@@ -20,7 +23,7 @@ public class CaptchaController {
     @Autowired
     private CaptchaMapper captchaMapper;
 
-    //发送验证码
+    @Operation(summary = "发送验证码")
     @PostMapping("/sendCaptchaByEmail")
     public Map<String, Object> sendCaptchaByEmail(String email) {
         Map<String, Object> response = new HashMap<>();
@@ -39,14 +42,14 @@ public class CaptchaController {
         return response;
     }
 
-    //匹配验证码
+    @Operation(summary = "匹配验证码")
     @PostMapping("/matchCaptcha")
     public Map<String, Object> matchCaptcha(String email, String code) {
         Map<String, Object> response = new HashMap<>();
         boolean success = captchaMapper.isCaptchaMatch(email, code);
         response.put("success", success);
-        if (success) {
-            captchaMapper.markCaptchaAsUsed(email);
+        if (success) {//匹配成功则设置验证码为已使用
+            captchaMapper.markCaptchaStatus(email,true);
         }
         return response;
     }

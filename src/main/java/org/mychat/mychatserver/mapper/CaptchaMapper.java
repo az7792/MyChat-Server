@@ -23,8 +23,8 @@ public interface CaptchaMapper {
             AND created_at > TIMESTAMPADD(MINUTE, -1, NOW());""")
     boolean isCaptchaMatch(String email, String code);
 
-    //更新验证码状态为已经使用
-    @Update("UPDATE captchas SET is_used = TRUE WHERE email = #{email}")
-    void markCaptchaAsUsed(String email);
+    //更新验证码状态
+    @Update("UPDATE captchas SET is_used = #{isUsed} WHERE email = #{email}")
+    void markCaptchaStatus(String email, boolean isUsed);
 
 }
