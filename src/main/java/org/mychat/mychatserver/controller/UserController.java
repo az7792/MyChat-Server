@@ -59,5 +59,13 @@ public class UserController {
         response.put("success",userMapper.matchByEmailAndPassword(email,password));
         return response;
     }
+
+    @Operation(summary = "通过UID修改密码")
+    @PostMapping("/updatePassword")
+    public Map<String, Object> updatePassword(int uid, String password) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success",userMapper.updatePassword(uid,password)==1);
+        return response;
+    }
 }
 
