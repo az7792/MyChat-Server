@@ -60,11 +60,11 @@ public class UserController {
         return response;
     }
 
-    @Operation(summary = "通过UID修改密码")
+    @Operation(summary = "通过邮箱修改密码")
     @PostMapping("/updatePassword")
-    public Map<String, Object> updatePassword(int uid, String password) {
+    public Map<String, Object> updatePassword(String email, String password) {
         Map<String, Object> response = new HashMap<>();
-        response.put("success",userMapper.updatePassword(uid,password)==1);
+        response.put("success",userMapper.updatePassword(email,password)==1);
         return response;
     }
 }
