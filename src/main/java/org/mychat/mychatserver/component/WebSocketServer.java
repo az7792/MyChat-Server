@@ -27,7 +27,7 @@ public class WebSocketServer {
 
     @OnClose
     public void onClose(Session session,@PathParam("uid")Integer uid) {
-        System.out.printf("连接关闭:uid(%d),session(%s)%n", uid, session.getId());
+        System.out.printf("连接关闭:uid(%d),session(%s)%n", uid, session.getId())
         sessions.remove(uid);
         System.out.println("服务器人数：" + Integer.toString(sessions.size()));
     }
