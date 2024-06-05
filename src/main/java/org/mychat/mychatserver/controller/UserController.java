@@ -18,7 +18,7 @@ public class UserController {
 
     @Operation(summary = "根据id查询用户是否存在")
     @GetMapping("/exists/uid")
-    public Map<String, Object> isUserExist(int uid) {
+    public Map<String, Object> isUserExist(Integer uid) {
         Map<String, Object> response = new HashMap<>();
         response.put("exist", userMapper.isUserExist(uid));
         return response;
@@ -46,7 +46,7 @@ public class UserController {
 
     @Operation(summary = "通过UID登录")
     @PostMapping("/login/uid")
-    public Map<String, Object> loginByUID(int uid, String password) {
+    public Map<String, Object> loginByUID(Integer uid, String password) {
         Map<String, Object> response = new HashMap<>();
         response.put("success",userMapper.matchByUidAndPassword(uid,password));
         return response;

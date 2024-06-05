@@ -10,7 +10,7 @@ import org.mychat.mychatserver.entity.User;
 public interface UserMapper {
     //判断UID是否存在
     @Select("SELECT COUNT(*) > 0 FROM users WHERE uid = #{uid}")
-    boolean isUserExist(int uid);
+    boolean isUserExist(Integer uid);
 
     //判断邮箱是否存在
     @Select("SELECT COUNT(*) > 0 FROM users WHERE email = #{email}")
@@ -22,7 +22,7 @@ public interface UserMapper {
 
     //通过UID和密码进行登录匹配
     @Select("SELECT COUNT(*) > 0 FROM users WHERE uid = #{uid} AND password = #{password}")
-    boolean matchByUidAndPassword(int uid, String password);
+    boolean matchByUidAndPassword(Integer uid, String password);
 
     //通过邮箱和密码进行登录匹配
     @Select("SELECT COUNT(*) > 0 FROM users WHERE email = #{email} AND password = #{password}")
