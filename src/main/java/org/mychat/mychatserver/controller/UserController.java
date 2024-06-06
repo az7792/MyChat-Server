@@ -18,7 +18,7 @@ public class UserController {
 
     @Operation(summary = "根据id查询用户是否存在")
     @GetMapping("/exists/uid")
-    public Map<String, Object> isUserExist(int uid) {
+    public Map<String, Object> isUserExist(Integer uid) {
         Map<String, Object> response = new HashMap<>();
         response.put("exist", userMapper.isUserExist(uid));
         return response;
@@ -30,6 +30,18 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         response.put("exist", userMapper.isEmailExist(email));
         return response;
+    }
+
+    @Operation(summary = "根据UID查询用户信息")
+    @PostMapping("/getUser/uid")
+    public User getUserByUid(Integer uid) {
+        return userMapper.getUserByUid(uid);
+    }
+
+    @Operation(summary = "根据邮箱查询用户信息")
+    @PostMapping("/getUser/email")
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
     }
 
     @Operation(summary = "注册新用户")
@@ -46,7 +58,7 @@ public class UserController {
 
     @Operation(summary = "通过UID登录")
     @PostMapping("/login/uid")
-    public Map<String, Object> loginByUID(int uid, String password) {
+    public Map<String, Object> loginByUID(Integer uid, String password) {
         Map<String, Object> response = new HashMap<>();
         response.put("success",userMapper.matchByUidAndPassword(uid,password));
         return response;

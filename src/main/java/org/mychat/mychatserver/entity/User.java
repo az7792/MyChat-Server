@@ -5,16 +5,16 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 public class User {
     @TableId(type= IdType.AUTO)
-    private int uid;
+    private Integer uid;
     private String username;
     private String email;
     private String password;
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
