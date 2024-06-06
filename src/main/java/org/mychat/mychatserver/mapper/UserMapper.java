@@ -16,6 +16,14 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) > 0 FROM users WHERE email = #{email}")
     boolean isEmailExist(String email);
 
+    //通过uid获取用户消息
+    @Select("SELECT uid, username, email FROM users WHERE uid = #{uid}")
+    User getUserByUid(Integer uid);
+
+    //通过邮箱获取用户消息
+    @Select("SELECT uid, username, email FROM users WHERE email = #{email}")
+    User getUserByEmail(String email);
+
     //增加用户
     @Insert("INSERT INTO users (username, email,password) VALUES (#{username}, #{email},#{password})")
     int addUser(User user);

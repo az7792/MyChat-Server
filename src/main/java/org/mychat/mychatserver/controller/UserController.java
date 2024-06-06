@@ -32,6 +32,18 @@ public class UserController {
         return response;
     }
 
+    @Operation(summary = "根据UID查询用户信息")
+    @PostMapping("/getUser/uid")
+    public User getUserByUid(Integer uid) {
+        return userMapper.getUserByUid(uid);
+    }
+
+    @Operation(summary = "根据邮箱查询用户信息")
+    @PostMapping("/getUser/email")
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
+    }
+
     @Operation(summary = "注册新用户")
     @PostMapping("/register")
     public Map<String, Object> register(User user) {
