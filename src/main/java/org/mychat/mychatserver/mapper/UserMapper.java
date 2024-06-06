@@ -45,6 +45,4 @@ public interface UserMapper {
     //修改用户的密码
     @Update("UPDATE users SET password = #{password} WHERE email = #{email};")
     int updatePassword(String email, String password);
-
-
 }
