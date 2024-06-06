@@ -47,7 +47,7 @@ public class ContactController {
         List<User> userList=new ArrayList<>();
         for(Contact o:list){
             if(usermapper.isUserExist(o.getUid2())){
-                userList.add(usermapper.selectUserByUid(o.getUid2()));
+                userList.add(usermapper.getUserByUid(o.getUid2()));
             }
         }
         return userList;
@@ -57,7 +57,11 @@ public class ContactController {
     @DeleteMapping("deletecontact/uid")
     Map<String,Object> deleteContactByUid(int uid1,int uid2){
         Map<String, Object> response = new HashMap<>();
-        if(contactmapper.isContactExist(uid1,uid2)) {
+        if(!contactmapper.isContactExist(uid1,uid2)) {
+            response.put("success",false);
+            return response;
+        }
+        if(!contactmapper.isContactExist(uid2,uid1)) {
             response.put("success",false);
             return response;
         }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,10 @@ public class GroupConnectController {
             response.put("success",false);
             return response;
         }
+        if(groupConnectMapper.isMemberExist(groupid,userid)){
+            response.put("success",false);
+            return response;
+        }
         response.put("success",groupConnectMapper.insertGroupMember(groupid,userid)==1);
         return response;
     }
@@ -49,22 +54,28 @@ public class GroupConnectController {
         if((!groupMapper.isGroupExist(groupid))||(!userMapper.isUserExist(userid))){
             return null;
         }
-        User user =groupConnectMapper.selectInGroupByUid(groupid,userid);
+        User user = userMapper.getUserByUid(userid);
         return user;
     }
 
     @Operation(summary = "根据群id与用户名查询群组成员")
     @GetMapping("/selectuseringroup/username")
     List<User> getContactByName(int groupid, String username){
-        List<User> list =groupConnectMapper.selectInGroupByName(groupid,username);
-        return list;
+        List<User> list = userMapper.getUserByUsername(username);
+        List<User> userList = new ArrayList<User>();
+        for(User it : list){
+            if(groupConnectMapper.isMemberExist(groupid,it.getUid())){
+                userList.add(it);
+            }
+        }
+        return userList;
     }
 
     @Operation(summary = "根据群组id与用户id删除用户")
     @DeleteMapping("deletemember/uid")
     Map<String,Object> deleteMemberByUid(int groupid,int uid){
         Map<String, Object> response = new HashMap<>();
-        if(groupConnectMapper.isMemberExist(groupid, uid)){
+        if(!groupConnectMapper.isMemberExist(groupid, uid)){
             response.put("success",false);
             return response;
         }

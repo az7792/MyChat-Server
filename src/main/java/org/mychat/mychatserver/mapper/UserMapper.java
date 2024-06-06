@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.mychat.mychatserver.entity.User;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     //判断UID是否存在
@@ -24,6 +26,10 @@ public interface UserMapper {
     @Select("SELECT uid, username, email FROM users WHERE email = #{email}")
     User getUserByEmail(String email);
 
+    //通过用户名获取用户消息
+    @Select("SELECT uid, username, email FROM users WHERE username = #{username}")
+    List<User> getUserByUsername(String username);
+
     //增加用户
     @Insert("INSERT INTO users (username, email,password) VALUES (#{username}, #{email},#{password})")
     int addUser(User user);
@@ -40,11 +46,5 @@ public interface UserMapper {
     @Update("UPDATE users SET password = #{password} WHERE email = #{email};")
     int updatePassword(String email, String password);
 
-    //根据uid查找用户
-    @Select("SELECT * FROM user WHERE uid=#{uid}")
-    User selectUserByUid(int uid);
 
-    //根据用户名查找用户
-    @Select("SELECT * FROM user WHERE username=#{username}")
-    User selectUserByName(String username);
 }

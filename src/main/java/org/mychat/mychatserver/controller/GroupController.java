@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.mychat.mychatserver.entity.Contact;
 import org.mychat.mychatserver.entity.Group;
 import org.mychat.mychatserver.entity.User;
+import org.mychat.mychatserver.mapper.GroupConnectMapper;
 import org.mychat.mychatserver.mapper.GroupMapper;
 import org.mychat.mychatserver.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class GroupController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private GroupConnectMapper groupConnectMapper;
+
     @Operation(summary = "创建群组")
     @PostMapping("/creatgroup")
     Map<String,Object> addGroupById(String groupname,int ownerid){
@@ -41,6 +45,9 @@ public class GroupController {
     @Operation(summary = "根据群id查询群组")
     @GetMapping("/selectgroup/uid")
     Group getContactByUid(int groupid){
+        if(!groupMapper.isGroupExist(groupid)){
+            return null;
+        }
         Group group=groupMapper.selectById(groupid);
         return group;
     }

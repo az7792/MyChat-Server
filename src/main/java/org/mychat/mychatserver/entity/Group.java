@@ -22,18 +22,18 @@ public class Group {
         this.groupname = groupname;
     }
 
-    public int getOwnerid() {
+    public Integer getOwnerid() {
         return ownerid;
     }
 
-    public void setOwnerid(int ownerid) {
+    public void setOwnerid(Integer ownerid) {
         this.ownerid = ownerid;
     }
     @TableId(type= IdType.AUTO)
     private int groupid;
     private String groupname;
 
-    private int ownerid;
+    private Integer ownerid;
 
 
 
