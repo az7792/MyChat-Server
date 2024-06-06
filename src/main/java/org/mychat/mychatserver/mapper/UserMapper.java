@@ -31,4 +31,12 @@ public interface UserMapper {
     //修改用户的密码
     @Update("UPDATE users SET password = #{password} WHERE email = #{email};")
     int updatePassword(String email, String password);
+
+    //根据uid查找用户
+    @Select("SELECT * FROM user WHERE uid=#{uid}")
+    User selectUserByUid(int uid);
+
+    //根据用户名查找用户
+    @Select("SELECT * FROM user WHERE username=#{username}")
+    User selectUserByName(String username);
 }
