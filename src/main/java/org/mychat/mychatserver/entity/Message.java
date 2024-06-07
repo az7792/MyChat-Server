@@ -3,41 +3,42 @@ package org.mychat.mychatserver.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.time.LocalDateTime;
+import org.mychat.mychatserver.utils.JsonUtil;
 
 @TableName("messages")
 public class Message {
     @TableId(type = IdType.AUTO)
-    private int messageId;
-    private int fromUserUid;
-    private int toReceiver;
+    private Integer messageId;
+    private Integer fromUserUid;
+    private Integer toReceiver;
     private String receiverType;
     private String text;
-    private LocalDateTime snetTime;
+    private LocalDateTime sentTime;
     private String type;
 
-    public int getMessageId() {
+    public Message(){}
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(int messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 
-    public int getFromUserUid() {
+    public Integer getFromUserUid() {
         return fromUserUid;
     }
 
-    public void setFromUserUid(int fromUserUid) {
+    public void setFromUserUid(Integer fromUserUid) {
         this.fromUserUid = fromUserUid;
     }
 
-    public int getToReceiver() {
+    public Integer getToReceiver() {
         return toReceiver;
     }
 
-    public void setToReceiver(int toReceiver) {
+    public void setToReceiver(Integer toReceiver) {
         this.toReceiver = toReceiver;
     }
 
@@ -57,12 +58,12 @@ public class Message {
         this.text = text;
     }
 
-    public LocalDateTime getSnetTime() {
-        return snetTime;
+    public LocalDateTime getSentTime() {
+        return sentTime;
     }
 
-    public void setSnetTime(LocalDateTime snetTime) {
-        this.snetTime = snetTime;
+    public void setSentTime(LocalDateTime sentTime) {
+        this.sentTime = sentTime;
     }
 
     public String getType() {
@@ -73,6 +74,9 @@ public class Message {
         this.type = type;
     }
 
-
+    //转换为JSON
+    public String toJSON() {
+        return JsonUtil.toJSON(this);
+    }
 
 }

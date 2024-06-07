@@ -9,8 +9,12 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import org.mychat.mychatserver.controller.GroupConnectController;
+import org.mychat.mychatserver.decoder.MessageDecoder;
+import org.mychat.mychatserver.entity.Message;
+import org.mychat.mychatserver.entity.MessageStatus;
 import org.mychat.mychatserver.mapper.GroupConnectMapper;
 import org.mychat.mychatserver.service.GroupConnectService;
+import org.mychat.mychatserver.service.MessageService;
 import org.mychat.mychatserver.service.impl.GroupConnectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +23,12 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint("/chat/{uid}")
+@ServerEndpoint(value = "/chat/{uid}",decoders = {MessageDecoder.class})
 @Component
 public class WebSocketServer {
 
     public static GroupConnectService groupConnectService;
+    public static MessageService messageService;
 
     public static final Map<Integer,Session> sessions = new ConcurrentHashMap<Integer,Session>();
     @OnOpen
@@ -31,6 +36,25 @@ public class WebSocketServer {
         System.out.printf("新连接:uid(%d),session(%s)%n", uid, session.getId());
         sessions.put(uid, session);
         System.out.println("服务器人数：" + Integer.toString(sessions.size()));
+
+        //发送未读消息
+        List<Integer> messageIds = messageService.getMessageIds(uid,"unread");
+        List<Message> messageList = messageService.getMessage(messageIds);
+        for (Message message : messageList) {
+            try {
+                session.getBasicRemote().sendText(message.toJSON());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Integer messageId : messageIds) {
+            MessageStatus tmp = new MessageStatus();
+            tmp.setMessageId(messageId);
+            tmp.setStatus("read");
+            tmp.setUid(uid);
+            messageService.updateMessageStstus(tmp);
+        }
     }
 
     @OnClose
@@ -41,43 +65,55 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session,@PathParam("uid")Integer uid){
-        System.out.println("Message received: " + message);
+    public void onMessage(Message message, Session session,@PathParam("uid")Integer uid){
+        System.out.println("Message received: " + message.toJSON());
         try {
-            // 解析原始 JSON 字符串,获取目标用户的 ID 和 ID类型
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(message);
-            Integer to = jsonNode.get("to").asInt();
-            String receiverType = jsonNode.get("receiverType").asText();
-            sendMessage(to, message,receiverType);
+            sendMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessage(Integer id, String message,String receiverType) {
+    public void sendMessage(Message message) {
         //获取待发送用户的ID列表
         List<Integer> UsersID = new ArrayList<>();
-        if(Objects.equals(receiverType, "user")){
-            UsersID.add(id);
+        if(Objects.equals(message.getReceiverType(), "user")){
+            UsersID.add(message.getToReceiver());
         }else {
-            UsersID = groupConnectService.getAllUidByGroupId(id);
+            UsersID = groupConnectService.getAllUidByGroupId(message.getToReceiver());
         }
 
-        for(Integer uid : UsersID) {
-            //存数据库
+        System.out.println(UsersID);
+        //存数据库
+        Integer num = messageService.saveMessage(message);
+        if(num!=1)//插入失败
+            return;
+        Integer megID = message.getMessageId();
 
+        //发送消息
+        for(Integer uid : UsersID) {
+            if(Objects.equals(uid, message.getFromUserUid())){//不能自己发给自己
+                continue;
+            }
             //存用户消息状态表
+            MessageStatus messageStatus = new MessageStatus();
+            messageStatus.setUid(uid);
+            messageStatus.setMessageId(megID);
+            messageStatus.setStatus("unread");
+
             Session session = WebSocketServer.sessions.get(uid);
-            if (session != null && session.isOpen()) {
+            if (session != null && session.isOpen()) {// 在线
                 try {
-                    session.getBasicRemote().sendText(message);
+                    session.getBasicRemote().sendText(message.toJSON());
+                    messageStatus.setStatus("read");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else {//不在线
                 System.out.println("User with uid " + uid + " not found or session is closed.");
             }
+
+            messageService.saveMessageStatus(messageStatus);//存状态
         }
     }
 }
