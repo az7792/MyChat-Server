@@ -3,10 +3,8 @@ package org.mychat.mychatserver.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.time.LocalDateTime;
+import org.mychat.mychatserver.utils.JsonUtil;
 
 @TableName("messages")
 public class Message {
@@ -77,13 +75,7 @@ public class Message {
 
     //转换为JSON
     public String toJSON() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return JsonUtil.toJSON(this);
     }
 
 }

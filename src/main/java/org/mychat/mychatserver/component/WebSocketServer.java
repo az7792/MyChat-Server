@@ -36,6 +36,25 @@ public class WebSocketServer {
         System.out.printf("新连接:uid(%d),session(%s)%n", uid, session.getId());
         sessions.put(uid, session);
         System.out.println("服务器人数：" + Integer.toString(sessions.size()));
+
+        //发送未读消息
+        List<Integer> messageIds = messageService.getMessageIds(uid,"unread");
+        List<Message> messageList = messageService.getMessage(messageIds);
+        for (Message message : messageList) {
+            try {
+                session.getBasicRemote().sendText(message.toJSON());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Integer messageId : messageIds) {
+            MessageStatus tmp = new MessageStatus();
+            tmp.setMessageId(messageId);
+            tmp.setStatus("read");
+            tmp.setUid(uid);
+            messageService.updateMessageStstus(tmp);
+        }
     }
 
     @OnClose
@@ -70,7 +89,6 @@ public class WebSocketServer {
         if(num!=1)//插入失败
             return;
         Integer megID = message.getMessageId();
-        System.out.println(megID);
 
         //发送消息
         for(Integer uid : UsersID) {
@@ -81,6 +99,7 @@ public class WebSocketServer {
             MessageStatus messageStatus = new MessageStatus();
             messageStatus.setUid(uid);
             messageStatus.setMessageId(megID);
+            messageStatus.setStatus("unread");
 
             Session session = WebSocketServer.sessions.get(uid);
             if (session != null && session.isOpen()) {// 在线
@@ -92,7 +111,6 @@ public class WebSocketServer {
                 }
             } else {//不在线
                 System.out.println("User with uid " + uid + " not found or session is closed.");
-                messageStatus.setStatus("unread");
             }
 
             messageService.saveMessageStatus(messageStatus);//存状态
