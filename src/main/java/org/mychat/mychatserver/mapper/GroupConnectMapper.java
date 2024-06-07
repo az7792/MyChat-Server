@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.mychat.mychatserver.entity.GroupConnect;
 import org.mychat.mychatserver.entity.User;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public interface GroupConnectMapper {
     //判断群组中是否存在该用户
     @Select("SELECT COUNT(*) > 0 FROM groupconnect WHERE groupid = #{groupid} AND uid = #{uid}")
     boolean isMemberExist(int groupid,int uid);
+
+    //判断群组中是否存在该用户
+    @Select("SELECT * FROM groupconnect WHERE groupid = #{groupid}")
+    List<GroupConnect> selectAllUserInGroup(int groupid);
 }

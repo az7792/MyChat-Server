@@ -74,6 +74,19 @@ public class GroupConnectController {
         return userList;
     }
 
+    @Operation(summary = "根据群id拉取所有用户")
+    @GetMapping("/getgroupmembers")
+    List<Integer> getAllUserByGroupId(Integer groupid){
+        List<GroupConnect> list = groupConnectMapper.selectAllUserInGroup(groupid);
+        List<Integer> userList = new ArrayList<Integer>();
+        for(GroupConnect it : list){
+            if(groupConnectMapper.isMemberExist(groupid,it.getUid())){
+                userList.add(it.getUid());
+            }
+        }
+        return userList;
+    }
+
     @Operation(summary = "根据群组id与用户id删除用户")
     @DeleteMapping("deletemember/uid")
     Map<String,Object> deleteMemberByUid(int groupid,int uid){

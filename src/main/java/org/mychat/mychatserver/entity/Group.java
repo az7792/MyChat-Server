@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("mygroups")
 public class Group {
-    public int getGroupid() {
+    public Integer getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(int groupid) {
+    public void setGroupid(Integer groupid) {
         this.groupid = groupid;
     }
 
@@ -31,7 +31,7 @@ public class Group {
     }
 
     @TableId(type= IdType.AUTO)
-    private int groupid;
+    private Integer groupid;
     private String groupname;
 
     private Integer ownerid;

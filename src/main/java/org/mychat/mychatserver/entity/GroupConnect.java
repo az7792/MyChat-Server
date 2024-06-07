@@ -1,44 +1,33 @@
 package org.mychat.mychatserver.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("groupconnect")
 public class GroupConnect {
-    public int getGroupconnectid() {
-        return groupconnectid;
-    }
 
-    public void setGroupconnectid(int groupconnectid) {
-        this.groupconnectid = groupconnectid;
-    }
-
-    public int getGroupid() {
+    public Integer getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(int groupid) {
+    public void setGroupid(Integer groupid) {
         this.groupid = groupid;
     }
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
-    private int groupconnectid;
-    private int groupid;
-    @TableId(type= IdType.AUTO)
-    private int uid;
+    private Integer groupid;
+
+    private Integer uid;
 
     @Override
     public String toString() {
         return "Group{" +
-                "GroupConnectId=" + groupconnectid +
                 "GroupId=" + groupid +
                 ", UserId='" + uid + '\'' +
                 '}';

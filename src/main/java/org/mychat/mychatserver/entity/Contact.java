@@ -1,42 +1,40 @@
 package org.mychat.mychatserver.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("contact")
 public class Contact {
 
 
-    public int getUid1() {
+    public Integer getUid1() {
         return uid1;
     }
 
-    public void setUid1(int uid1) {
+    public void setUid1(Integer uid1) {
         this.uid1 = uid1;
     }
 
-    public int getUid2() {
+    public Integer getUid2() {
         return uid2;
     }
 
-    public void setUid2(int uid2) {
+    public void setUid2(Integer uid2) {
         this.uid2 = uid2;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
 
-    private int uid1;
-    private int uid2;
+    private Integer uid1;
+    private Integer uid2;
 
-    private int status;
+    private Integer status;
 
 
 
