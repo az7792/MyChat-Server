@@ -10,6 +10,7 @@ import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,23 +41,29 @@ public class WebSocketServer {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(message);
             Integer to = jsonNode.get("to").asInt();
-
-            sendMessage(to, message);
+            String receiverType = jsonNode.get("receiverType").asText();
+            sendMessage(to, message,receiverType);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendMessage(Integer uid, String message) {
-        Session session = WebSocketServer.sessions.get(uid);
-        if (session != null && session.isOpen()) {
-            try {
-                session.getBasicRemote().sendText(message);
-            } catch (Exception e) {
-                e.printStackTrace();
+    public static void sendMessage(Integer id, String message,String receiverType) {
+        List<Integer>UsersID = List.of();
+        for(Integer uid : UsersID) {
+            //存数据库
+
+            //存用户消息状态表
+            Session session = WebSocketServer.sessions.get(uid);
+            if (session != null && session.isOpen()) {
+                try {
+                    session.getBasicRemote().sendText(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("User with uid " + uid + " not found or session is closed.");
             }
-        } else {
-            System.out.println("User with uid " + uid + " not found or session is closed.");
         }
     }
 }
