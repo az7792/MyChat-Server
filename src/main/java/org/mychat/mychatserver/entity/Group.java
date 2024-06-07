@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName("group")
+@TableName("mygroups")
 public class Group {
     public int getGroupid() {
         return groupid;
@@ -29,6 +29,7 @@ public class Group {
     public void setOwnerid(Integer ownerid) {
         this.ownerid = ownerid;
     }
+
     @TableId(type= IdType.AUTO)
     private int groupid;
     private String groupname;

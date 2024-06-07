@@ -32,13 +32,16 @@ public class GroupController {
 
     @Operation(summary = "创建群组")
     @PostMapping("/creatgroup")
-    Map<String,Object> addGroupById(String groupname,int ownerid){
-        Map<String, Object> response = new HashMap<>();
-        if((!userMapper.isUserExist(ownerid))){
-            response.put("success",false);
+    Map<Group,Object> addGroupById(Group group){
+        Map<Group, Object> response = new HashMap<>();
+        if((!userMapper.isUserExist(group.getOwnerid()))){
+            response.put(group,false);
             return response;
         }
-        response.put("success",groupMapper.creatGroup(groupname,ownerid)==1);
+        int status1=groupMapper.insert(group);
+        int status2=groupConnectMapper.insertGroupMember(group.getGroupid(),group.getGroupid());
+//        System.out.println(group);
+        response.put(group,status1&status2);
         return response;
     }
 

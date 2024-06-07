@@ -15,10 +15,11 @@ public interface GroupConnectMapper {
     @Insert("INSERT INTO groupconnect (groupid,uid) VALUES (#{groupid}, #{uid})")
     int insertGroupMember(int groupid,int uid);
 
-    //在群组中查询用户
+    //在群组中以用户名查询用户
     @Select("Select uid FROM groupconnect WHERE groupid=#{groupid} AND username=#{username}")
     List<User> selectInGroupByName(int groupid,String username);
 
+    //在群组中以Uid查询用户
     @Select("Select uid FROM groupconnect WHERE groupid=#{groupid} AND uid=#{uid}")
     User selectInGroupByUid(int groupid,int uid);
 

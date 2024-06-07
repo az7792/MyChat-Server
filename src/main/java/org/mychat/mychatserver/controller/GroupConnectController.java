@@ -54,6 +54,9 @@ public class GroupConnectController {
         if((!groupMapper.isGroupExist(groupid))||(!userMapper.isUserExist(userid))){
             return null;
         }
+        if(!groupConnectMapper.isMemberExist(groupid,userid)){
+            return null;
+        }
         User user = userMapper.getUserByUid(userid);
         return user;
     }

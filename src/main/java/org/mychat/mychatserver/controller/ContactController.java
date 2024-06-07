@@ -36,7 +36,8 @@ public class ContactController {
             response.put("success",false);
             return response;
         }
-        response.put("success",contactmapper.addContactByUid(uid1,uid2)==1);
+        contactmapper.addContactByUid(uid1,uid2);
+        response.put("success",true);
         return response;
     }
 

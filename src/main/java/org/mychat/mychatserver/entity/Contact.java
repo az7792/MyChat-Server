@@ -6,13 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("contact")
 public class Contact {
-    public int getContactid() {
-        return contactid;
-    }
 
-    public void setContactid(int contactid) {
-        this.contactid = contactid;
-    }
 
     public int getUid1() {
         return uid1;
@@ -38,8 +32,7 @@ public class Contact {
         this.status = status;
     }
 
-    @TableId(type= IdType.AUTO)
-    private int contactid;
+
     private int uid1;
     private int uid2;
 
@@ -50,7 +43,6 @@ public class Contact {
     @Override
     public String toString() {
         return "Group{" +
-                "ContactId=" + contactid +
                 ", Uid1='" + uid1 + '\'' +
                 ", Uid2='" + uid2 + '\'' +
                 '}';
