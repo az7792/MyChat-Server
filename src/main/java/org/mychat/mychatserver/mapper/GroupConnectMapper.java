@@ -32,7 +32,11 @@ public interface GroupConnectMapper {
     @Select("SELECT COUNT(*) > 0 FROM groupconnect WHERE groupid = #{groupid} AND uid = #{uid}")
     boolean isMemberExist(int groupid,int uid);
 
-    //判断群组中是否存在该用户
+    //根据群id查找所有群与用户的关系
     @Select("SELECT * FROM groupconnect WHERE groupid = #{groupid}")
     List<GroupConnect> selectAllUserInGroup(int groupid);
+
+    //根据群id查找所有用户uid
+    @Select("SELECT uid FROM groupconnect WHERE groupid = #{groupid}")
+    List<Integer> getAllUidBygroupid(Integer groupid);
 }
