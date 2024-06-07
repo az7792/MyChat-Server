@@ -39,7 +39,7 @@ public class GroupController {
             return response;
         }
         int status1=groupMapper.insert(group);
-        int status2=groupConnectMapper.insertGroupMember(group.getGroupid(),group.getGroupid());
+        int status2=groupConnectMapper.insertGroupMember(group.getGroupid(),group.getOwnerid());
 //        System.out.println(group);
         response.put(group,status1&status2);
         return response;
