@@ -2,8 +2,8 @@ package org.mychat.mychatserver.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName("user_message_status")
-public class UserMessageStatus {
+@TableName("message_status")
+public class MessageStatus {
     private int uid;
     private int messageId;
     private String status;
