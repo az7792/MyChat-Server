@@ -4,23 +4,28 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("message_status")
 public class MessageStatus {
-    private int uid;
-    private int messageId;
+    private Integer uid;
+    private Integer messageId;
     private String status;
-
-    public int getUid() {
+    public MessageStatus(){}
+    public MessageStatus(int uid, int messageId, String status) {
+        this.uid = uid;
+        this.messageId = messageId;
+        this.status = status;
+    }
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
-    public int getMessageId() {
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(int messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 

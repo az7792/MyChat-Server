@@ -39,21 +39,15 @@ public class WebSocketServer {
 
         //发送未读消息
         List<Integer> messageIds = messageService.getMessageIds(uid,"unread");
-        List<Message> messageList = messageService.getMessage(messageIds);
-        for (Message message : messageList) {
+        List<Message> messages = messageService.getMessage(messageIds);
+        for(int i = 0; i < messages.size(); i++){
             try {
-                session.getBasicRemote().sendText(message.toJSON());
+                session.getBasicRemote().sendText(messages.get(i).toJSON());
+                MessageStatus tmp = new MessageStatus(uid,messageIds.get(i),"read");
+                messageService.updateMessageStstus(tmp);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        for (Integer messageId : messageIds) {
-            MessageStatus tmp = new MessageStatus();
-            tmp.setMessageId(messageId);
-            tmp.setStatus("read");
-            tmp.setUid(uid);
-            messageService.updateMessageStstus(tmp);
         }
     }
 
