@@ -33,5 +33,8 @@ public interface GroupMapper extends BaseMapper<Group>{
     @Select("SELECT COUNT(*) > 0 FROM mygroups WHERE groupid = #{groupid}")
     boolean isGroupExist(int groupid);
 
+    @Select("SELECT ownerid FROM mygroups WHERE groupid = #{groupId}")
+    Integer getOwnerIdByGroupId(Integer groupId);
+
 
 }

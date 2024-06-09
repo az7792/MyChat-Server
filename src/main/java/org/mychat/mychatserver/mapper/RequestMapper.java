@@ -25,4 +25,8 @@ public interface RequestMapper {
     @Select("SELECT COUNT(*) > 0 FROM requests WHERE requester_id = #{requesterId} AND target_group_id = #{targetGroupId} AND request_type = 'GROUP' AND approved = false")
     boolean isGroupRequestExist(Integer requesterId, Integer targetGroupId);
 
+    // 根据群组ID查询群主ID
+// 根据群组ID查询群主ID
+
+
 }
