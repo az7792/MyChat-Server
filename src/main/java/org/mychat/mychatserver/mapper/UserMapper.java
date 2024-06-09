@@ -28,7 +28,7 @@ public interface UserMapper {
     List<User> getUserByUsername(String username);
 
     //增加用户
-    @Insert("INSERT INTO users (username, email,password,avatar) VALUES (#{username}, #{email},#{password}),#{avatar}")
+    @Insert("INSERT INTO users (username, email,password,avatar) VALUES (#{username}, #{email},#{password},#{avatar})")
     int addUser(User user);
 
     //通过UID和密码进行登录匹配
