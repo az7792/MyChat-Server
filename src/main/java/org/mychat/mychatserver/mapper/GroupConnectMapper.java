@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.mychat.mychatserver.entity.Group;
 import org.mychat.mychatserver.entity.GroupConnect;
 import org.mychat.mychatserver.entity.User;
 
@@ -35,6 +36,10 @@ public interface GroupConnectMapper {
     //根据群id查找所有群与用户的关系
     @Select("SELECT * FROM groupconnect WHERE groupid = #{groupid}")
     List<GroupConnect> selectAllUserInGroup(int groupid);
+
+    //根据用户id查询所有所在群
+    @Select("SELECT groupid FROM groupconnect WHERE uid = #{uid}")
+    List<Integer> selectAllGroupOfUser(int uid);
 
     //根据群id查找所有用户uid
     @Select("SELECT uid FROM groupconnect WHERE groupid = #{groupid}")

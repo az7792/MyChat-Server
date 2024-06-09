@@ -42,7 +42,7 @@ public class ContactController {
     }
 
     @Operation(summary = "根据uid获取用户所有联系人")
-    @GetMapping("/selectcontact/uid")
+    @PostMapping("/selectcontact/uid")
     List<User> getContactByUid(int uid){
         List<Contact> list=contactmapper.selectByUid(uid);
         List<User> userList=new ArrayList<>();
@@ -55,7 +55,7 @@ public class ContactController {
     }
 
     @Operation(summary = "根据uid删除联系人")
-    @DeleteMapping("deletecontact/uid")
+    @DeleteMapping("/deletecontact/uid")
     Map<String,Object> deleteContactByUid(int uid1,int uid2){
         Map<String, Object> response = new HashMap<>();
         if(!contactmapper.isContactExist(uid1,uid2)) {

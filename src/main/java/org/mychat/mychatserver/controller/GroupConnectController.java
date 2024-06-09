@@ -80,6 +80,17 @@ public class GroupConnectController {
         return groupConnectMapper.getAllUidBygroupid(groupid);
     }
 
+    @Operation(summary = "根据用户uid查询所有群")
+    @PostMapping("/getgroups/uid")
+    List<Group> getAllGroupOfUser(Integer uid){
+        List<Integer> list=groupConnectMapper.selectAllGroupOfUser(uid);
+        List<Group> glist=new ArrayList<Group>();
+        for(Integer it:list){
+            glist.add(groupMapper.selectById(it));
+        }
+        return glist;
+    }
+
     @Operation(summary = "根据群组id与用户id删除用户")
     @DeleteMapping("deletemember/uid")
     Map<String,Object> deleteMemberByUid(int groupid,int uid){
@@ -91,5 +102,8 @@ public class GroupConnectController {
         response.put("success",groupConnectMapper.deleteContactById(groupid, uid));
         return response;
     }
+
+
+
 
 }
