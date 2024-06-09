@@ -6,7 +6,10 @@ import org.mychat.mychatserver.entity.User;
 import org.mychat.mychatserver.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +80,34 @@ public class UserController {
     public Map<String, Object> updatePassword(String email, String password) {
         Map<String, Object> response = new HashMap<>();
         response.put("success",userMapper.updatePassword(email,password)==1);
+        return response;
+    }
+
+    @Operation(summary = "根据UID获取头像")
+    @PostMapping("/getAvatar")
+    public Map<String, Object> getAvatarByUid(Integer uid) {
+        Map<String, Object> response = new HashMap<>();
+            String avatar = userMapper.getAvatarByUid(uid);
+            if (avatar == null) {
+                response.put("success", false);
+                response.put("message", "Avatar not found");
+            } else {
+                response.put("success", true);
+                response.put("avatar", avatar);
+            }
+        return response;
+    }
+
+    @Operation(summary = "根据UID更新头像")
+    @PostMapping("/updateAvatar")
+    public Map<String, Object> updateAvatarByUid(Integer uid, String avatar) {
+        Map<String, Object> response = new HashMap<>();
+        int res = userMapper.updateAvatarByUid(uid,avatar);
+        if (res == 1) {
+            response.put("success", true);
+        }else {
+            response.put("success", false);
+        }
         return response;
     }
 }

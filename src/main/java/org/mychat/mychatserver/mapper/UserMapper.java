@@ -1,9 +1,6 @@
 package org.mychat.mychatserver.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.mychat.mychatserver.entity.User;
 
 import java.util.List;
@@ -19,11 +16,11 @@ public interface UserMapper {
     boolean isEmailExist(String email);
 
     //通过uid获取用户消息
-    @Select("SELECT uid, username, email FROM users WHERE uid = #{uid}")
+    @Select("SELECT uid, username, email,avatar FROM users WHERE uid = #{uid}")
     User getUserByUid(Integer uid);
 
     //通过邮箱获取用户消息
-    @Select("SELECT uid, username, email FROM users WHERE email = #{email}")
+    @Select("SELECT uid, username, email,avatar FROM users WHERE email = #{email}")
     User getUserByEmail(String email);
 
     //通过用户名获取用户消息
@@ -31,7 +28,7 @@ public interface UserMapper {
     List<User> getUserByUsername(String username);
 
     //增加用户
-    @Insert("INSERT INTO users (username, email,password) VALUES (#{username}, #{email},#{password})")
+    @Insert("INSERT INTO users (username, email,password,avatar) VALUES (#{username}, #{email},#{password}),#{avatar}")
     int addUser(User user);
 
     //通过UID和密码进行登录匹配
@@ -45,4 +42,13 @@ public interface UserMapper {
     //修改用户的密码
     @Update("UPDATE users SET password = #{password} WHERE email = #{email};")
     int updatePassword(String email, String password);
+
+    // 根据 UID 获取用户头像
+    @Select("SELECT avatar FROM users WHERE uid = #{uid}")
+    String getAvatarByUid(Integer uid);
+
+    // 根据 UID 更新用户头像
+    @Update("UPDATE users SET avatar = #{avatar} WHERE uid = #{uid}")
+    int updateAvatarByUid(@Param("uid") Integer uid, @Param("avatar") String avatar);
+
 }

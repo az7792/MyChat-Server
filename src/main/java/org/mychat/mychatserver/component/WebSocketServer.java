@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -79,6 +80,7 @@ public class WebSocketServer {
 
         System.out.println(UsersID);
         //存数据库
+        message.setSentTime(LocalDateTime.now());
         Integer num = messageService.saveMessage(message);
         if(num!=1)//插入失败
             return;
@@ -96,6 +98,7 @@ public class WebSocketServer {
             messageStatus.setStatus("unread");
 
             Session session = WebSocketServer.sessions.get(uid);
+            System.out.println("-------------"+uid);
             if (session != null && session.isOpen()) {// 在线
                 try {
                     session.getBasicRemote().sendText(message.toJSON());

@@ -9,6 +9,17 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
 
     public Integer getUid() {
         return uid;
