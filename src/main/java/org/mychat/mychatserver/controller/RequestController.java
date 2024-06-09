@@ -64,12 +64,14 @@ public class RequestController {
             return response;
         }
 
+
         // 创建新的好友请求
         Request request = new Request();
         request.setRequesterId(requesterId);
         request.setTargetUserId(targetUserId);
         request.setMessage(message);
         request.setCreatedAt(LocalDateTime.now());
+
         request.setRequestType("FRIEND");
         request.setApproved(false);
 
@@ -111,12 +113,20 @@ public class RequestController {
             response.put("message", "用户不存在");
             return response;
         }
+        // 查找群主ID
+        Integer ownerId = groupMapper.getOwnerIdByGroupId(groupId);
+        if (ownerId == null) {
+            response.put("success", false);
+            response.put("message", "无法找到群主");
+            return response;
+        }
 
         // 创建新的群组申请
         Request request = new Request();
         request.setRequesterId(userId);
         request.setTargetGroupId(groupId); // 对于群组请求，使用 targetGroupId
         request.setMessage(message);
+        request.setTargetUserId(ownerId);
         request.setCreatedAt(LocalDateTime.now());
         request.setRequestType("GROUP");
         request.setApproved(false);

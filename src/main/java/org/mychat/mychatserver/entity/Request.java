@@ -1,5 +1,8 @@
 package org.mychat.mychatserver.entity;
 
+import org.mychat.mychatserver.mapper.RequestMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDateTime;
 
 public class Request {
@@ -76,6 +79,7 @@ public class Request {
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
+
 
     @Override
     public String toString() {
