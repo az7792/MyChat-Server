@@ -81,7 +81,7 @@ public class GroupConnectController {
     }
 
     @Operation(summary = "根据群id拉取所有用户")
-    @GetMapping("/getgroupmembers/user")
+    @PostMapping("/getgroupmembers/user")
     List<User> getAllUserByGroupId(Integer groupid){
         List<Integer> idList=groupConnectMapper.getAllUidBygroupid(groupid);
         List<User> userList = new ArrayList<User>();

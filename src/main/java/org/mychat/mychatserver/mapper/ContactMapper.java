@@ -21,7 +21,7 @@ public interface ContactMapper {
 
     //删除好友
     @Delete("DELETE FROM contact WHERE uid1=#{uid1} AND uid2 =#{uid2}")
-    Integer deleteContactById(Integer uid1,int uid2);
+    Integer deleteContactById(Integer uid1,Integer uid2);
 
     @Select("SELECT COUNT(*) > 0 FROM contact WHERE uid1 = #{uid1} AND uid2 = #{uid2}")
     boolean isContactExist(Integer uid1, Integer uid2);
