@@ -18,7 +18,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserMapper userMapper;
-
     @Operation(summary = "根据id查询用户是否存在")
     @GetMapping("/exists/uid")
     public Map<String, Object> isUserExist(Integer uid) {
