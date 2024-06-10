@@ -9,7 +9,6 @@ import org.mychat.mychatserver.mapper.ContactMapper;
 import org.mychat.mychatserver.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +25,7 @@ public class ContactController {
 
     @Operation(summary = "根据uid为用户添加新联系人")
     @PostMapping("/addcontact/uid")
-    public Map<String,Object> addContactById(int uid1,int uid2){
+    public Map<String,Object> addContactById(Integer uid1,Integer uid2){
         Map<String, Object> response = new HashMap<>();
         if(contactmapper.isContactExist(uid1,uid2)) {
             response.put("success",false);
@@ -43,7 +42,7 @@ public class ContactController {
 
     @Operation(summary = "根据uid获取用户所有联系人")
     @PostMapping("/selectcontact/uid")
-    List<User> getContactByUid(int uid){
+    List<User> getContactByUid(Integer uid){
         List<Contact> list=contactmapper.selectByUid(uid);
         List<User> userList=new ArrayList<>();
         for(Contact o:list){
@@ -56,7 +55,7 @@ public class ContactController {
 
     @Operation(summary = "根据uid删除联系人")
     @DeleteMapping("/deletecontact/uid")
-    Map<String,Object> deleteContactByUid(int uid1,int uid2){
+    Map<String,Object> deleteContactByUid(Integer uid1,Integer uid2){
         Map<String, Object> response = new HashMap<>();
         if(!contactmapper.isContactExist(uid1,uid2)) {
             response.put("success",false);

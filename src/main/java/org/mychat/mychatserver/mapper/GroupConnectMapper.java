@@ -44,4 +44,7 @@ public interface GroupConnectMapper {
     //根据群id查找所有用户uid
     @Select("SELECT uid FROM groupconnect WHERE groupid = #{groupid}")
     List<Integer> getAllUidBygroupid(Integer groupid);
+
+    @Select("SELECT * FROM groupconnect WHERE groupid = #{groupid}")
+    List<User> getAllUserBygroupid(Integer groupid);
 }

@@ -27,7 +27,7 @@ public interface GroupMapper extends BaseMapper<Group>{
 
     //根据群组id删除群组
     @Delete("DELETE FROM mygroups WHERE groupid = #{groupid}")
-    int deleteByGroupId(int groupid);
+    Integer deleteByGroupId(int groupid);
 
     //判断群组是否存在
     @Select("SELECT COUNT(*) > 0 FROM mygroups WHERE groupid = #{groupid}")

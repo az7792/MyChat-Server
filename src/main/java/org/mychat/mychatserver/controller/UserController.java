@@ -102,7 +102,7 @@ public class UserController {
     @PostMapping("/updateAvatar")
     public Map<String, Object> updateAvatarByUid(Integer uid, String avatar) {
         Map<String, Object> response = new HashMap<>();
-        int res = userMapper.updateAvatarByUid(uid,avatar);
+        Integer res = userMapper.updateAvatarByUid(uid,avatar);
         if (res == 1) {
             response.put("success", true);
         }else {

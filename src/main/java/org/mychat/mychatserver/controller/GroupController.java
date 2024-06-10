@@ -38,16 +38,16 @@ public class GroupController {
             response.put(group,false);
             return response;
         }
-        int status1=groupMapper.insert(group);
-        int status2=groupConnectMapper.insertGroupMember(group.getGroupid(),group.getOwnerid());
+        Integer status1=groupMapper.insert(group);
+        Integer status2=groupConnectMapper.insertGroupMember(group.getGroupid(),group.getOwnerid());
 //        System.out.println(group);
         response.put(group,status1&status2);
         return response;
     }
 
     @Operation(summary = "根据群id查询群组")
-    @GetMapping("/selectgroup/uid")
-    Group getContactByUid(int groupid){
+    @PostMapping("/selectgroup/uid")
+    Group getContactByUid(Integer groupid){
         if(!groupMapper.isGroupExist(groupid)){
             return null;
         }
@@ -64,7 +64,7 @@ public class GroupController {
 
     @Operation(summary = "修改群名称")
     @PutMapping("/updategroup")
-    Map<String,Object> getContactByName(String groupname,int groupid){
+    Map<String,Object> getContactByName(String groupname,Integer groupid){
         Map<String, Object> response = new HashMap<>();
         if(!groupMapper.isGroupExist(groupid)){
             response.put("success",false);
@@ -76,7 +76,7 @@ public class GroupController {
 
     @Operation(summary = "根据群组id删除群组")
     @DeleteMapping("deletegroup/uid")
-    Map<String,Object> deleteContactByUid(int groupid){
+    Map<String,Object> deleteContactByUid(Integer groupid){
         Map<String, Object> response = new HashMap<>();
         if(!groupMapper.isGroupExist(groupid)) {
             response.put("success",false);
