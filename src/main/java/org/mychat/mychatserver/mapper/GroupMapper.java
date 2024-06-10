@@ -9,9 +9,11 @@ import java.util.List;
 @Mapper
 public interface GroupMapper extends BaseMapper<Group>{
 
+
+
     //根据群组id查询群组
     @Select("SELECT * FROM mygroups WHERE groupid = #{groupid}")
-    Group selectById(int groupid);
+    Group selectById(Integer groupid);
 
     //根据群组名称查询群组
     @Select("SELECT * FROM mygroups WHERE groupname = #{groupname}")
@@ -19,19 +21,19 @@ public interface GroupMapper extends BaseMapper<Group>{
 
     //添加新群组
     @Insert("INSERT INTO mygroups VALUES (#{groupid},#{groupname},#{ownerid})")
-    int creatGroup(Group group);
+    Integer creatGroup(Group group);
 
     //修改群组名称
     @Update("UPDATE mygroups SET groupname = #{groupname} WHERE groupid = #{groupid};")
-    int updateGroupName(int groupid,String groupname);
+    Integer updateGroupName(Integer groupid,String groupname);
 
     //根据群组id删除群组
     @Delete("DELETE FROM mygroups WHERE groupid = #{groupid}")
-    int deleteByGroupId(int groupid);
+    Integer deleteByGroupId(Integer groupid);
 
     //判断群组是否存在
     @Select("SELECT COUNT(*) > 0 FROM mygroups WHERE groupid = #{groupid}")
-    boolean isGroupExist(int groupid);
+    boolean isGroupExist(Integer groupid);
 
     @Select("SELECT ownerid FROM mygroups WHERE groupid = #{groupId}")
     Integer getOwnerIdByGroupId(Integer groupId);
