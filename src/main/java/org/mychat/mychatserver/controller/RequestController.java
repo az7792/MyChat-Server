@@ -75,7 +75,7 @@ public class RequestController {
         request.setRequestType("FRIEND");
         request.setApproved(false);
 
-        int requestResult = requestMapper.insertRequest(request);
+        Integer requestResult = requestMapper.insertRequest(request);
         response.put("success", requestResult > 0);
         response.put("message", requestResult > 0 ? "好友请求已提交" : "好友请求提交失败");
 

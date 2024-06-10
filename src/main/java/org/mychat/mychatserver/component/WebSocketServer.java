@@ -98,7 +98,6 @@ public class WebSocketServer {
             messageStatus.setStatus("unread");
 
             Session session = WebSocketServer.sessions.get(uid);
-            System.out.println("-------------"+uid);
             if (session != null && session.isOpen()) {// 在线
                 try {
                     session.getBasicRemote().sendText(message.toJSON());

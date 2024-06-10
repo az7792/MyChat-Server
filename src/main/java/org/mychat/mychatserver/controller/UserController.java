@@ -18,7 +18,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserMapper userMapper;
-
     @Operation(summary = "根据id查询用户是否存在")
     @GetMapping("/exists/uid")
     public Map<String, Object> isUserExist(Integer uid) {
@@ -102,7 +101,7 @@ public class UserController {
     @PostMapping("/updateAvatar")
     public Map<String, Object> updateAvatarByUid(Integer uid, String avatar) {
         Map<String, Object> response = new HashMap<>();
-        int res = userMapper.updateAvatarByUid(uid,avatar);
+        Integer res = userMapper.updateAvatarByUid(uid,avatar);
         if (res == 1) {
             response.put("success", true);
         }else {

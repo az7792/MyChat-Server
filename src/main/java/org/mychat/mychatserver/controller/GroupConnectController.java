@@ -34,7 +34,7 @@ public class GroupConnectController {
 
     @Operation(summary = "群组中加入新成员")
     @PostMapping("/addusertogroup")
-    Map<String,Object> addUserToGroup(int groupid, int userid){
+    Map<String,Object> addUserToGroup(Integer groupid, Integer userid){
         Map<String, Object> response = new HashMap<>();
         if((!groupMapper.isGroupExist(groupid))||(!userMapper.isUserExist(userid))){
             response.put("success",false);
@@ -50,7 +50,7 @@ public class GroupConnectController {
 
     @Operation(summary = "根据群id与用户id查询群组成员")
     @GetMapping("/selectuseringroup/uid")
-    User getContactByUid(int groupid, int userid){
+    User getContactByUid(Integer groupid, Integer userid){
         if((!groupMapper.isGroupExist(groupid))||(!userMapper.isUserExist(userid))){
             return null;
         }
@@ -63,7 +63,7 @@ public class GroupConnectController {
 
     @Operation(summary = "根据群id与用户名查询群组成员")
     @GetMapping("/selectuseringroup/username")
-    List<User> getContactByName(int groupid, String username){
+    List<User> getContactByName(Integer groupid, String username){
         List<User> list = userMapper.getUserByUsername(username);
         List<User> userList = new ArrayList<User>();
         for(User it : list){
@@ -74,15 +74,37 @@ public class GroupConnectController {
         return userList;
     }
 
-    @Operation(summary = "根据群id拉取所有用户")
-    @GetMapping("/getgroupmembers")
-    List<Integer> getAllUserByGroupId(Integer groupid){
+    @Operation(summary = "根据群id拉取所有用户Uid")
+    @GetMapping("/getgroupmembers/uid")
+    List<Integer> getAllUidByGroupId(Integer groupid){
         return groupConnectMapper.getAllUidBygroupid(groupid);
+    }
+
+    @Operation(summary = "根据群id拉取所有用户")
+    @PostMapping("/getgroupmembers/user")
+    List<User> getAllUserByGroupId(Integer groupid){
+        List<Integer> idList=groupConnectMapper.getAllUidBygroupid(groupid);
+        List<User> userList = new ArrayList<User>();
+        for(Integer it : idList){
+            userList.add(userMapper.getUserByUid(it));
+        }
+        return userList;
+    }
+
+    @Operation(summary = "根据用户uid查询所有群")
+    @PostMapping("/getgroups/uid")
+    List<Group> getAllGroupOfUser(Integer uid){
+        List<Integer> list=groupConnectMapper.selectAllGroupOfUser(uid);
+        List<Group> glist=new ArrayList<Group>();
+        for(Integer it:list){
+            glist.add(groupMapper.selectById(it));
+        }
+        return glist;
     }
 
     @Operation(summary = "根据群组id与用户id删除用户")
     @DeleteMapping("deletemember/uid")
-    Map<String,Object> deleteMemberByUid(int groupid,int uid){
+    Map<String,Object> deleteMemberByUid(Integer groupid,Integer uid){
         Map<String, Object> response = new HashMap<>();
         if(!groupConnectMapper.isMemberExist(groupid, uid)){
             response.put("success",false);
@@ -91,5 +113,8 @@ public class GroupConnectController {
         response.put("success",groupConnectMapper.deleteContactById(groupid, uid));
         return response;
     }
+
+
+
 
 }

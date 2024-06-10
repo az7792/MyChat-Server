@@ -6,14 +6,12 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.mychat.mychatserver.entity.Message;
 
-import java.util.List;
-
 @Mapper
 public interface MessageMapper {
     //插入一条消息
     @Insert("INSERT INTO messages (from_user_uid, to_receiver, text, type, receiver_type) VALUES (#{fromUserUid}, #{toReceiver}, #{text}, #{type}, #{receiverType})")
     @Options(useGeneratedKeys = true, keyProperty = "messageId", keyColumn = "message_id")
-    int insertMessage(Message message);
+    Integer insertMessage(Message message);
 
     @Select("SELECT * FROM messages WHERE message_id = #{messageId}")
     Message getMessageByMessageId(Integer messageId);
