@@ -1,16 +1,31 @@
 package org.mychat.mychatserver.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 public class User {
-    private int uid;
+    @TableId(type= IdType.AUTO)
+    private Integer uid;
     private String username;
     private String email;
     private String password;
+    private String avatar;
 
-    public int getUid() {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
+
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
